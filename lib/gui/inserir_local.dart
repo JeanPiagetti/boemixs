@@ -2,15 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:convert' show utf8;
-import 'dart:typed_data';
 import 'package:boemix_app/model/localizacao.dart';
 import 'package:boemix_app/model/singularidade.dart';
 import 'package:boemix_app/services/localizacao_service.dart';
 import 'package:boemix_app/services/singularidade_service.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'busca.dart';
 
@@ -80,7 +76,6 @@ class _InserirLocalState extends State<InserirLocal> {
               if (_formKeyNome.currentState.validate() &&
                       _formKeySing.currentState.validate() ||
                   _formContatoKey.currentState.validate()) {
-                print("POST Local");
                 await services.postLocalizacao(_editedLocal).then((response) {
                   setState(() {
                     if (response) {
@@ -98,7 +93,6 @@ class _InserirLocalState extends State<InserirLocal> {
                   });
                 });
               } else {
-                print("Dados não inseridos");
                 _scaffoldKey.currentState.showSnackBar(SnackBar(
                     content: Text("Preencha os campos,por favor"),
                     duration: Duration(seconds: 3)));
@@ -114,7 +108,6 @@ class _InserirLocalState extends State<InserirLocal> {
                   GestureDetector(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        //height: MediaQuery.of(context).size.height,
                         height: 400.0,
                         decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
@@ -210,7 +203,6 @@ class _InserirLocalState extends State<InserirLocal> {
                           shape: CircleBorder(),
                           onPressed: () {
                             if (_formKeySing.currentState.validate()) {
-                              print("Singularidade add no local");
                               singularidadeService.postSingularidade(singularidade).then((response) {
                                 if (response != null) {
                                   setState(() {
@@ -218,8 +210,6 @@ class _InserirLocalState extends State<InserirLocal> {
                                     _preencheListaSingularidade();
                                     _listViewSingularidades();
                                   });
-                                  print(
-                                      "Post singularidade ${_editedLocal.singularidade}");
                                   _scaffoldKey.currentState.showSnackBar(SnackBar(
                                       content: Text(
                                           "Peculiaridade Cadastrada com sucesso!")));
@@ -236,63 +226,6 @@ class _InserirLocalState extends State<InserirLocal> {
         ));
   }
 
-/*
- * @TODO Verificar função ok
- * @TODO fazer a tela de ver e a singularidades
- */
-
-//  void _showOptions(BuildContext context, int index) {
-//    showModalBottomSheet(
-//        context: context,
-//        builder: (context) {
-//          return BottomSheet(
-//            onClosing: () {},
-//            builder: (context) {
-//              return Container(
-//                padding: EdgeInsets.all(10.0),
-//                child: Column(
-//                  mainAxisSize: MainAxisSize.min,
-//                  children: <Widget>[
-//                    Padding(
-//                      padding: EdgeInsets.all(10.0),
-//                      child: FlatButton(
-//                        child: Text(
-//                          "Excluir",
-//                          style: TextStyle(color: Colors.black, fontSize: 20.0),
-//                        ),
-//                        onPressed: () async {
-//                          await singularidadeService
-//                              .deleteSingular(
-//                                  singularidades[index].idSingularidade)
-//                              .then((response) {
-//                            if (response) {
-//                              setState(() {
-//                                print(response);
-//                                _scaffoldKey.currentState.showSnackBar(SnackBar(
-//                                    content: Text(
-//                                  "Removido com sucesso! $response",
-//                                  style: TextStyle(fontSize: 15.0),
-//                                )));
-//                                singularidades.removeAt(index);
-//                                Navigator.pop(context);
-//                              });
-//                            } else {
-//                              Navigator.pop(context);
-//                              _scaffoldKey.currentState.showSnackBar(SnackBar(
-//                                  content: Text(
-//                                      "Não pode remover singularidade $response")));
-//                            }
-//                          });
-//                        },
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//              );
-//            },
-//          );
-//        });
-//  }
   void _showOptionsPeculiar(BuildContext context, int index) {
     showModalBottomSheet(
         context: context,
@@ -359,14 +292,11 @@ class _InserirLocalState extends State<InserirLocal> {
                             value: singularidade,
                             groupValue: singularidades[index],
                             secondary: Icon(Icons.local_activity),
-                            //onChanged: (Singularidade) => setState(() => singularidade= singularidades[index]),
                             onChanged: (Singularidade s) {
                               setState(() {
                                 index1 = index;
                                 singularidade = singularidades[index];
                                 _editedLocal.singularidade = singularidade;
-                                print(
-                                    'id Selecionado $index1 e id da singularidade $singularidade');
                               });
                             },
 
@@ -374,33 +304,15 @@ class _InserirLocalState extends State<InserirLocal> {
                             title: Text(
                                 "${singularidades[index].nomeSingularidade}"),
                           );
-
-//                          return RaisedButton(
-//                            child: Text(singularidades[index].nomeSingularidade,
-//                                style: TextStyle(fontSize: 20.0)),
-//                            onPressed: () {
-//                              index1 = index;
-//                              print("Singularidade id e indice $index  ${singularidades[index].idSingularidade}");
-//                              _editedLocal.singularidade =
-//                                  singularidades[index];
-//                              print("Objeto a ser postado:{"
-//                                  "Nome singularidade ${_editedLocal.singularidade.nomeSingularidade}, idLocalizacao  ${_editedLocal.idLocalizacao}, Nome Local ${_editedLocal.nomeLocal}");
-//                            },
-//                          );
                         })))
           ],
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
         onLongPress: () {
-          print(
-              'objeto a ser exluido ${singularidades[index1].idSingularidade}');
           _showOptionsPeculiar(context, index1);
         });
   }
 
-/*
-    *@TODO escolha arquivo Ok
-    */
   void _modalEscolherArquivo(BuildContext context) {
     final flatButtonColor = Theme.of(context).primaryColor;
     showModalBottomSheet(
@@ -438,23 +350,15 @@ class _InserirLocalState extends State<InserirLocal> {
         });
   }
 
-/*
-    @TODO getImage Ok
-     */
   void _getImage(BuildContext context, ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
     setState(() {
       if (image != null) {
         _editedLocal.imagem = base64Encode(image.readAsBytesSync());
-      } else {
-        print("Não foi enviado imagem para o servidor");
       }
     });
   }
 
-/*
-@TODO preenchimento de listas ok
- */
   void _preencheListaSingularidade() {
     singularidadeService.retornaTodasSingularidades().then((response) {
       setState(() {
@@ -495,7 +399,4 @@ class _InserirLocalState extends State<InserirLocal> {
     }
   }
 
-  Uint8List _decodificarImagem(String imagem) {
-    return base64.decode(imagem);
-  }
 }

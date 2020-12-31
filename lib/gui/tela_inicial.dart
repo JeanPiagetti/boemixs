@@ -1,4 +1,3 @@
-import 'package:boemix_app/gui/busca_update.dart';
 import 'package:flutter/material.dart';
 
 import 'busca.dart';
@@ -24,12 +23,8 @@ class TelaInicial extends StatelessWidget {
                   style: TextStyle(fontSize: 30.0, color: Colors.black87),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BuscaUpdate("Nome")));
-//                  Navigator.push(context,
-//                      MaterialPageRoute(builder: (context) => Busca("Nome")));
+                 Navigator.push(context,
+                     MaterialPageRoute(builder: (context) => Busca("Nome")));
                 },
               ),
             ),
@@ -45,7 +40,7 @@ class TelaInicial extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => BuscaUpdate("Peculiaridade")));
+                          builder: (context) => Busca("Peculiaridade")));
                 },
               ),
             ),

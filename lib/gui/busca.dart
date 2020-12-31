@@ -373,7 +373,9 @@ class BuscaState extends State<Busca> {
           },
         );
         break;
+        default: return null;
     }
+    
   }
 
   Widget _listarLocaisPeculiaridade(int index) {

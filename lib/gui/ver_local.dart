@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:convert' show utf8;
@@ -10,7 +9,6 @@ import 'package:boemix_app/services/singularidade_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'busca.dart';
 
 class VerLocal extends StatefulWidget {
   final Localizacao localizacao;
@@ -60,8 +58,6 @@ class _VerLocalState extends State<VerLocal> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        // onWillPop: _requestPop,
-
         child: Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -137,16 +133,10 @@ class _VerLocalState extends State<VerLocal> {
     ));
   }
 
-/*
- * @TODO Verificar função ok
- * @TODO fazer a tela de ver e a singularidades
- */
   Uint8List _decodificarImagem(String imagem){
     return base64.decode(imagem);
   }
-//  Image _retornaImagemDecodificada(Uint8List bytesImagem){
-//    return
-//  }
+
   void _showOptions(BuildContext context, int index) {
     showModalBottomSheet(
         context: context,
@@ -207,11 +197,7 @@ class _VerLocalState extends State<VerLocal> {
                           style: TextStyle(fontSize: 20.0)),
                       onPressed: () {
                         index1 = index;
-                        print(
-                            "Singularidade id e indice ${index}  ${singularidades[index].idSingularidade}");
                         _editedLocal.singularidade = singularidades[index];
-                        print("Objeto a ser postado:{"
-                            "Nome singularidade ${_editedLocal.singularidade.nomeSingularidade}, idLocalizacao  ${_editedLocal.idLocalizacao}, Nome Local ${_editedLocal.nomeLocal}");
                       },
                     );
                   },
@@ -226,9 +212,6 @@ class _VerLocalState extends State<VerLocal> {
         });
   }
 
-  /*
-    *@TODO escolha arquivo Ok
-    */
   void _modalEscolherArquivo(BuildContext context) {
     final flatButtonColor = Theme.of(context).primaryColor;
     showModalBottomSheet(
@@ -266,9 +249,6 @@ class _VerLocalState extends State<VerLocal> {
         });
   }
 
-  /*
-    @TODO getImage Ok
-     */
   void _getImage(BuildContext context, ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
     setState(() {
@@ -278,14 +258,9 @@ class _VerLocalState extends State<VerLocal> {
         print("Não foi enviado imagem para o servidor");
       }
 
-      // ByteData byteData = image.readAsBytesSync().buffer.asByteData();
-      // print('Bytes da imagem $byteData');
     });
   }
 
-/*
-@TODO preenchimento de listas ok
- */
   void _preencheListaSingularidade() {
     singularidadeService.retornaTodasSingularidades().then((response) {
       setState(() {

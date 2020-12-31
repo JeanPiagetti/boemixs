@@ -90,8 +90,6 @@ class BuscaPorSingularidadeState extends State<BuscaPorSingularidade> {
           ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-//          Navigator.push(
-//              context, MaterialPageRoute(builder: (context) => LocalPage()));
         },
         backgroundColor: Colors.black,
         child: Icon(Icons.add),
@@ -153,7 +151,6 @@ class BuscaPorSingularidadeState extends State<BuscaPorSingularidade> {
               Padding(
                 padding: EdgeInsets.only(left: 10.0),
                 child: Column(
-                  //crossAxisAlignment: WrapCrossAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
